@@ -5,9 +5,26 @@
 #include <stdexcept>
 #include <string>
 
+#include "implementations/intro.cpp"
+
+// root function
+
 img::EasyImage generate_image(const ini::Configuration &configuration)
 {
-	return img::EasyImage();
+    std::string type = configuration["General"]["type"].as_string_or_die(); // type must ALWAYS be set
+
+    img::EasyImage image;
+
+    if ( type == "IntroColorRectangle" ) {
+        unsigned int width = configuration["ImageProperties"]["width"].as_int_or_die();
+        unsigned int height = configuration["ImageProperties"]["height"].as_int_or_die();
+        image = colorRectangle( width, height );
+    } else {
+        image = img::EasyImage();
+    }
+
+    return image;
+
 }
 
 int main(int argc, char const* argv[])
