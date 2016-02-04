@@ -46,20 +46,48 @@ img::EasyImage introBlocks( const unsigned int w, const unsigned int h, const un
     return image;
 }
 
-img::EasyImage introQuarterCircle( const unsigned int w, const unsigned int h, const unsigned int nrLines, const ini::DoubleTuple linecolor, const ini::DoubleTuple bgcolor ) {
+img::EasyImage introQuarterCircle( const unsigned int w, const unsigned int h, const unsigned int nrLines, const img::Color linecolor, const img::Color bgcolor ) {
     // width, height, # lines, linecolor, bgcolor
 
-    img::EasyImage image(w, h, img::Color(bgcolor));
-
-    img::Color line = img::Color(linecolor);
+    img::EasyImage image(w, h, bgcolor);
 
     double hs = h / (nrLines - 1);
     double ws = w / (nrLines - 1);
 
     for ( unsigned int i = 0; i < nrLines; ++i) {
 //        image.drawLine( x1, y1, x2, y2, color);
-        image.draw_line( 0, (h-1) - (i*hs), (w-1) - (i*ws), h-1, line);
+        unsigned int x1 = 0;
+        unsigned int y1 = roundToInt( (h-1) - (i*hs) );
+        unsigned int x2 = roundToInt( (w-1) - (i*ws) );
+        unsigned int y2 = h - 1;
+        image.draw_line( x1, y1, x2, y2, linecolor);
     }
     
     return image;
+}
+
+img::EasyImage introEye( const unsigned int w, const unsigned int h, const unsigned int nrLines, const img::Color linecolor, const img::Color bgcolor ) {
+    img::EasyImage image(w, h, bgcolor);
+
+    double hs = h / (nrLines - 1);
+    double ws = w / (nrLines - 1);
+
+    for ( unsigned int i = 0; i < nrLines; ++i) {
+        unsigned int x1 = 0;
+        unsigned int y1 = roundToInt( (h-1) - (i*hs) );
+        unsigned int x2 = roundToInt( (w-1) - (i*ws) );
+        unsigned int y2 = h - 1;
+        image.draw_line( x1, y1, x2, y2, linecolor);
+
+        x1 = roundToInt( i*ws );
+        y1 = 0;
+        x2 = w - 1;
+        y2 = roundToInt( i*hs );
+        image.draw_line( x1, y1, x2, y2, linecolor);
+    }
+
+    return image;
+}
+
+img::EasyImage introDiamond() {
 }

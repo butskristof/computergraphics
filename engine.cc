@@ -54,10 +54,14 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
         unsigned int height = configuration["ImageProperties"]["height"].as_int_or_die();
         unsigned int nrLines = configuration["LineProperties"]["nrLines"].as_int_or_die();
         ini::DoubleTuple linecolor = configuration["LineProperties"]["lineColor"].as_double_tuple_or_die();
+        img::Color linec = img::Color(linecolor);
         ini::DoubleTuple bgcolor = configuration["LineProperties"]["backgroundcolor"].as_double_tuple_or_die();
+        img::Color bgc = img::Color(bgcolor);
         std::string figure = configuration["LineProperties"]["figure"].as_string_or_die();
         if ( figure == "QuarterCircle" ) {
-            image = introQuarterCircle(width, height, nrLines, linecolor, bgcolor);
+            image = introQuarterCircle(width, height, nrLines, linec, bgc);
+        } else if ( figure == "Eye" ) {
+            image = introEye(width, height, nrLines, linec, bgc);
         }
     } else {
         image = img::EasyImage();
