@@ -20,6 +20,9 @@
 #include <stdint.h>
 #include <vector>
 #include <iostream>
+
+#include "ini_configuration.hh"
+
 /**
  * \brief The namespace of the EasyImage class
  */
@@ -64,6 +67,12 @@ namespace img
 			 *
 			 */
 			Color(uint8_t r, uint8_t g, uint8_t b);
+
+            /*
+                Added by Kristof Buts
+                generate Color from ini::DoubleTuple
+            */
+            Color(ini::DoubleTuple col);
 			
 			/**
 			 * Destructor
