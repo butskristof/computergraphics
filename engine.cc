@@ -22,7 +22,7 @@
 // implementations
 
     // intro
-    #include "implementations/intro.cpp" // colorRectangle, blocks
+    #include "implementations/intro.cpp" // colorRectangle, blocks, quartercircle
 
 // root function, more like root of all evil
 
@@ -49,6 +49,16 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
         }
 
         image = introBlocks(width, height, nrXBlocks, nrYBlocks, colorWhite, colorBlack);
+    } else if ( type == "IntroLines" ) {
+        unsigned int width = configuration["ImageProperties"]["width"].as_int_or_die();
+        unsigned int height = configuration["ImageProperties"]["height"].as_int_or_die();
+        unsigned int nrLines = configuration["LineProperties"]["nrLines"].as_int_or_die();
+        ini::DoubleTuple linecolor = configuration["LineProperties"]["lineColor"].as_double_tuple_or_die();
+        ini::DoubleTuple bgcolor = configuration["LineProperties"]["backgroundcolor"].as_double_tuple_or_die();
+        std::string figure = configuration["LineProperties"]["figure"].as_string_or_die();
+        if ( figure == "QuarterCircle" ) {
+            image = introQuarterCircle(width, height, nrLines, linecolor, bgcolor);
+        }
     } else {
         image = img::EasyImage();
     }

@@ -45,3 +45,21 @@ img::EasyImage introBlocks( const unsigned int w, const unsigned int h, const un
 
     return image;
 }
+
+img::EasyImage introQuarterCircle( const unsigned int w, const unsigned int h, const unsigned int nrLines, const ini::DoubleTuple linecolor, const ini::DoubleTuple bgcolor ) {
+    // width, height, # lines, linecolor, bgcolor
+
+    img::EasyImage image(w, h, img::Color(bgcolor));
+
+    img::Color line = img::Color(linecolor);
+
+    double hs = h / (nrLines - 1);
+    double ws = w / (nrLines - 1);
+
+    for ( unsigned int i = 0; i < nrLines; ++i) {
+//        image.drawLine( x1, y1, x2, y2, color);
+        image.draw_line( 0, (h-1) - (i*hs), (w-1) - (i*ws), h-1, line);
+    }
+    
+    return image;
+}
