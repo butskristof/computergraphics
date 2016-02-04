@@ -5,9 +5,26 @@
 #include <stdexcept>
 #include <string>
 
-#include "implementations/intro.cpp"
+#include <utility> // std::swap
 
-// root function
+// general additions
+    // pi: we want a good approximation for our calculations
+    // this can be used throughout the whole project
+    #define _USE_MATH_DEFINES
+    #include <cmath>
+    double pi = M_PI; // pi to 50 decimal places
+
+    // rounding is important!
+    inline int roundToInt(double d) {
+        return d < 0 ? std::ceil(d-0.5): std::floor(d+0.5);
+    }
+
+// implementations
+
+    // intro
+    #include "implementations/intro.cpp" // colorRectangle, blocks
+
+// root function, more like root of all evil
 
 img::EasyImage generate_image(const ini::Configuration &configuration)
 {
@@ -19,6 +36,19 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
         unsigned int width = configuration["ImageProperties"]["width"].as_int_or_die();
         unsigned int height = configuration["ImageProperties"]["height"].as_int_or_die();
         image = colorRectangle( width, height );
+    } else if ( type == "IntroBlocks") {
+        unsigned int width = configuration["ImageProperties"]["width"].as_int_or_die();
+        unsigned int height = configuration["ImageProperties"]["height"].as_int_or_die();
+        unsigned int nrXBlocks = configuration["BlockProperties"]["nrXBlocks"].as_int_or_die();
+        unsigned int nrYBlocks = configuration["BlockProperties"]["nrYBlocks"].as_int_or_die();
+        ini::DoubleTuple colorWhite = configuration["BlockProperties"]["colorWhite"].as_double_tuple_or_die();
+        ini::DoubleTuple colorBlack = configuration["BlockProperties"]["colorBlack"].as_double_tuple_or_die();
+        bool invertColors = configuration["BlockProperties"]["invertColors"].as_bool_or_default(false);
+        if (invertColors) {
+            std::swap(colorWhite, colorBlack);
+        }
+
+        image = introBlocks(width, height, nrXBlocks, nrYBlocks, colorWhite, colorBlack);
     } else {
         image = img::EasyImage();
     }
