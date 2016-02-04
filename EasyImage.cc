@@ -119,7 +119,7 @@ img::Color::Color(uint8_t r, uint8_t g, uint8_t b) :
 }
 
 // self added contructor for ini::DoubleTuple
-img::Color::Color(ini::DoubleTuple col): blue(col.at(0)), green(col.at(1)), red(col.at(2)) {
+img::Color::Color(ini::DoubleTuple col): red(col.at(0) * 255), green(col.at(1) * 255), blue(col.at(2) * 255) {
 }
 
 img::Color::~Color()
