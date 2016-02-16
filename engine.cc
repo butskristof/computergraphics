@@ -64,6 +64,8 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
             image = introQuarterCircle(width, height, nrLines, linec, bgc);
         } else if ( figure == "Eye" ) {
             image = introEye(width, height, nrLines, linec, bgc);
+        } else if ( figure == "Diamond" ) {
+            image = introDiamond(width, height, nrLines, linec, bgc);
         }
     } else {
         image = img::EasyImage();

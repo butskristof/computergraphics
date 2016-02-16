@@ -89,14 +89,41 @@ img::EasyImage introEye( const unsigned int w, const unsigned int h, const unsig
     return image;
 }
 
-img::EasyImage introDiamond() {
+img::EasyImage introDiamond( const unsigned int w, const unsigned int h, const unsigned int nrLines, const img::Color linecolor, const img::Color bgcolor ) {
     img::EasyImage image(w, h, bgcolor);
 
-    double hs = h / (nrLines - 1);
-    double ws = w / (nrLines - 1);
+    double halfwi = (double)w / 2.0;
+    double halfhi = (double)h / 2.0;
+
+    double ws = halfwi / (nrLines - 1);
+    double hs = halfhi / (nrLines - 1);
 
     for ( unsigned int i = 0; i < nrLines; ++i) {
-        unsigned x1, y1, x2, y2;
+        unsigned int x1, y1, x2, y2;
+        // 1st quarter
+        x1 = roundToInt((w-1) - (i*ws));
+        y1 = roundToInt(halfhi);
+        x2 = roundToInt(halfwi);
+        y2 = roundToInt((halfhi - 1) + (i*hs));
+        image.draw_line(x1, y1, x2, y2, linecolor);
+        // 2nd quarter
+        x1 = roundToInt((i*ws));
+        y1 = roundToInt(halfhi);
+        x2 = roundToInt(halfwi);
+        y2 = roundToInt((halfhi - 1) + (i*hs));
+        image.draw_line(x1, y1, x2, y2, linecolor);
+        // 3rd quarter
+        x1 = roundToInt((w-1) - (i*ws));
+        y1 = roundToInt(halfhi);
+        x2 = roundToInt(halfwi);
+        y2 = roundToInt((halfhi) - (i*hs));
+        image.draw_line(x1, y1, x2, y2, linecolor);
+        // 4th quarter
+        x1 = roundToInt((i*ws));
+        y1 = roundToInt(halfhi);
+        x2 = roundToInt(halfwi);
+        y2 = roundToInt((halfhi) - (i*hs));
+        image.draw_line(x1, y1, x2, y2, linecolor);
     }
     
     return image;
