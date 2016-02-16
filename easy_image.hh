@@ -15,8 +15,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef EASYIMAGE_H_
-#define EASYIMAGE_H_
+#ifndef EASY_IMAGE_INCLUDED
+#define EASY_IMAGE_INCLUDED
 #include <stdint.h>
 #include <vector>
 #include <iostream>
@@ -42,28 +42,28 @@ namespace img
 			 * \brief The intensity of the blue color component
 			 */
 			uint8_t blue;
-			
+
 			/**
 			 * \brief The intensity of the green color component
 			 */
 			uint8_t green;
-			
+
 			/**
 			 * \brief The intensity of the red color component
 			 */
 			uint8_t red;
-			
+
 			/**
 			 * \brief Default Constructor
 			 */
 			Color();
-			
+
 			/**
 			 * \brief Constructs a Color with the given intensities
 			 *
 			 * \param r	The red color component
 			 * \param g	The green color component
-			 * \param b	The blue color component			 
+			 * \param b	The blue color component
 			 *
 			 */
 			Color(uint8_t r, uint8_t g, uint8_t b);
@@ -73,7 +73,7 @@ namespace img
                 generate Color from ini::DoubleTuple
             */
             Color(ini::DoubleTuple col);
-			
+
 			/**
 			 * Destructor
 			 */
@@ -86,7 +86,7 @@ namespace img
 	class UnsupportedFileTypeException: public std::exception
 	{
 		private:
-			
+
 			/**
 			 * \brief Message explaining what went wrong
 			 */
@@ -95,20 +95,20 @@ namespace img
 		public:
 			/**
 			 * \brief Construct an exception with the given message
-			 * 
+			 *
 			 * \param msg	The message explaining what went wrong
 			 *
 			 */
 			UnsupportedFileTypeException(std::string const& msg);
-                        
+
                         /**
                          * \brief Copy Constructor
                          *
                          * \param original	The exception to be copied into this object
                          */
 			UnsupportedFileTypeException(const UnsupportedFileTypeException &original);
-			
-			
+
+
 			/**
 			 * \brief Destructor
 			 */
@@ -116,7 +116,7 @@ namespace img
 
 			/**
 			 * \brief Assignment operator
-			 * 
+			 *
 			 * \param original	The original exception to be assigned to this one
 			 */
 			UnsupportedFileTypeException& operator=(const UnsupportedFileTypeException &original);
@@ -141,21 +141,21 @@ namespace img
 			EasyImage();
 
 			/**
-			 * \brief Constructor: creates a new EasyImage of the specified width and height 
+			 * \brief Constructor: creates a new EasyImage of the specified width and height
 			 *
 			 * \param width		the width of the image
 			 * \param height	the height of the image
 			 * \param color		(optional) the background color of the image
 			 */
 			EasyImage(unsigned int width, unsigned int height, Color color = Color());
-			
+
 			/**
 			 * \brief Copy Constructor
 			 *
 			 * \param img		the image to be copied
 			 */
 			EasyImage(EasyImage const& img);
-			
+
 			/**
 			 * \brief Destructor
 			 */
@@ -174,7 +174,7 @@ namespace img
 			 * \return the width of the image
 			 */
 			unsigned int get_width() const;
-			
+
 			/**
 			 * \brief Returns the height of the image
 			 * \return the height of the image
@@ -220,7 +220,7 @@ namespace img
 			 * \param x1	the x coordinate of the second pixel
 			 * \param y1	the y coordinate of the second pixel
 			 * \param color	the color of the line
-			 * 
+			 *
 			 * These assertions apply:
 			 *	assert(x0 < getWidth())
 			 * 	assert(y0 < getHeight())
@@ -241,13 +241,13 @@ namespace img
 			unsigned int height;
 			/**
 			 * \brief the vector containing all pixels
-			 */			
+			 */
 			std::vector<Color> bitmap;
 	};
-	
+
 	/**
 	 * \brief Writes an img::EasyImage to an output stream in the BMP file format
-	 * 
+	 *
 	 * \param out		the std::ostream to write the BMP file to.
 	 * \param image		the img::EasyImage to be written to the output stream
 	 *
@@ -257,7 +257,7 @@ namespace img
 	/**
 	 * \brief Reads an img::EasyImage from an input stream.
 	 *
-	 * Please note: at this point only a limited subset of BMP-file format is supported. 
+	 * Please note: at this point only a limited subset of BMP-file format is supported.
 	 * In order to correctly read a BMP file it must:
 	 * 	- Be an uncompressed bitmap
 	 *	- Only contain one plane
@@ -266,10 +266,10 @@ namespace img
 	 *
 	 * \param in		the input stream to read the bitmap from
 	 * \param image		the EasyImage object in which the bitmap must be stored
-	 * 
+	 *
 	 * \return		a reference to the input stream from which the bitmap was read
 	 */
 	std::istream& operator>>(std::istream& in, EasyImage& image);
 
 }
-#endif /* EASYIMAGE_H_ */
+#endif /* EASY_IMAGE_INCLUDED */

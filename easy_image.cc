@@ -1,5 +1,5 @@
 /*
- * EasyImage.cc
+ * easy_image.cc
  * Copyright (C) 2011  Daniel van den Akker
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "EasyImage.h"
+#include "easy_image.hh"
 #include <algorithm>
 #include <assert.h>
 #include <math.h>
@@ -117,11 +117,9 @@ img::Color::Color(uint8_t r, uint8_t g, uint8_t b) :
 	blue(b), green(g), red(r)
 {
 }
-
-// self added contructor for ini::DoubleTuple
+// self added ctor for ini::DoubleTuple, for convenience
 img::Color::Color(ini::DoubleTuple col): red(col.at(0) * 255), green(col.at(1) * 255), blue(col.at(2) * 255) {
 }
-
 img::Color::~Color()
 {
 }

@@ -90,4 +90,14 @@ img::EasyImage introEye( const unsigned int w, const unsigned int h, const unsig
 }
 
 img::EasyImage introDiamond() {
+    img::EasyImage image(w, h, bgcolor);
+
+    double hs = h / (nrLines - 1);
+    double ws = w / (nrLines - 1);
+
+    for ( unsigned int i = 0; i < nrLines; ++i) {
+        unsigned x1, y1, x2, y2;
+    }
+    
+    return image;
 }

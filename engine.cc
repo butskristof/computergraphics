@@ -1,5 +1,6 @@
-#include "EasyImage.h"
+#include "easy_image.hh"
 #include "ini_configuration.hh"
+
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
@@ -25,6 +26,7 @@
     #include "implementations/intro.cpp" // colorRectangle, blocks, quartercircle
 
 // root function, more like root of all evil
+
 
 img::EasyImage generate_image(const ini::Configuration &configuration)
 {
@@ -68,7 +70,6 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
     }
 
     return image;
-
 }
 
 int main(int argc, char const* argv[])
@@ -128,8 +129,8 @@ int main(int argc, char const* argv[])
         {
     		//When you run out of memory this exception is thrown. When this happens the return value of the program MUST be '100'.
     		//Basically this return value tells our automated test scripts to run your engine on a pc with more memory.
-    		//(Unless of course you are already consuming the maximum allowed amount of memory) 
-    		//If your engine does NOT adhere to this requirement you risk losing points because then our scripts will 
+    		//(Unless of course you are already consuming the maximum allowed amount of memory)
+    		//If your engine does NOT adhere to this requirement you risk losing points because then our scripts will
 		//mark the test as failed while in reality it just needed a bit more memory
                 std::cerr << "Error: insufficient memory" << std::endl;
                 retVal = 100;
