@@ -260,6 +260,7 @@ void img::EasyImage::draw_line(unsigned int x0, unsigned int y0, unsigned int x1
 		}
 	}
 }
+
 std::ostream& img::operator<<(std::ostream& out, EasyImage const& image)
 {
 

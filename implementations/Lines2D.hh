@@ -3,23 +3,7 @@
 
 #include <list>
 #include "../easy_image.hh"
-
-class Point2D {
-    private:
-        double x;
-        double y;
-    public:
-        Point2D();
-        Point2D(const double x, const double y);
-
-        void setX(const double x);
-        double getX();
-        void setY(const double y);
-        double getY();
-
-        bool operator==(Point2D& r);
-        bool operator!=(Point2D& r);
-};
+#include "Point2D.hh"
 
 class Line2D {
     private:

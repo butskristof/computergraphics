@@ -26,7 +26,8 @@
     #include "implementations/intro.cpp" // colorRectangle, blocks, quartercircle
 
     // session 1
-    #include "implementations/Lines2D.hh" // Line2D & Point2D
+    #include "implementations/Point2D.hh" // Point2D
+    #include "implementations/Lines2D.hh" // Line2D
     #include "implementations/s1.cpp" // draw2DLines
 
 // root function, more like root of all evil
