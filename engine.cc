@@ -30,6 +30,8 @@
     #include "implementations/Lines2D.hh" // Line2D
     #include "implementations/s1.cpp" // draw2DLines
 
+    #include "implementations/2dlsystems.cpp" // L-system shizzle
+
 // root function, more like root of all evil
 
 img::EasyImage generate_image(const ini::Configuration &configuration)
@@ -71,6 +73,20 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
         } else if ( figure == "Diamond" ) {
             image = introDiamond(width, height, nrLines, linec, bgc);
         }
+    } else if ( type == "2DLines" ) {
+        unsigned int size = configuration["General"]["size"].as_int_or_die();
+        Lines2D lines;
+        lines.push_back( Line2D( 10, 1, 10, 10 ) );
+        lines.push_back( Line2D( 2, 2, 20, 20 ) );
+        image = draw2DLines(lines, size, img::Color(255, 255, 255));
+    } else if ( type == "2DLSystem") {
+        unsigned int size = configuration["General"]["size"].as_int_or_die();
+        img::Color bgc = img::Color( configuration["General"]["backgroundcolor"].as_double_tuple_or_die() );
+        img::Color linec = img::Color( configuration["2DLSystem"]["color"] );
+        std::string inputloc = configuration["2DLSystem"]["inputfile"].as_string_or_die();
+        LParser::LSystem2D lsystem = makeLSystem(inputloc);
+        Lines2D lines = drawLSystem(lsystem, linec);
+        image = draw2DLines(lines, size, bgc);
     } else {
         image = img::EasyImage();
     }
