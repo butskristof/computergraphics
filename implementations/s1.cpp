@@ -7,6 +7,7 @@ img::EasyImage draw2DLines(const Lines2D& lines, const unsigned int size, const 
     
     // find min/max for x/y
     double xmin = INT_MAX, xmax = 0, ymin = INT_MAX, ymax = 0;
+
     for (auto it: lines) {
         double x1, y1, x2, y2;
         x1 = it.getp1()->getX();
@@ -35,20 +36,26 @@ img::EasyImage draw2DLines(const Lines2D& lines, const unsigned int size, const 
     double imgy = size * ( yrange / std::max(xrange, yrange ));
 
     double d = 0.95 * (imgx / xrange);
-    double dcx = (d * (xmin + xmax) ) / 2;
-    double dcy = (d * (ymin + ymax) ) / 2;
-    double dx = (imgx / 2) - dcx;
-    double dy = (imgy / 2) - dcy;
+    double dcx = (d * (xmin + xmax) ) / 2.0;
+    double dcy = (d * (ymin + ymax) ) / 2.0;
+    double dx = (imgx / 2.0) - dcx;
+    double dy = (imgy / 2.0) - dcy;
 
     // move points
 
     img::EasyImage img(imgx, imgy, bgc);
     for (auto it: lines) {
         it.getp1()->setX(dx + (d * it.getp1()->getX()) );
-        it.getp1()->setY(dx + (d * it.getp1()->getY()) );
+        unsigned int x1 = roundToInt(it.getp1()->getX());
+        it.getp1()->setY(dy + (d * it.getp1()->getY()) );
+        unsigned int y1 = roundToInt(it.getp1()->getY());
         it.getp2()->setX(dx + (d * it.getp2()->getX()) );
-        it.getp2()->setY(dx + (d * it.getp2()->getY()) );
+        unsigned int x2 = roundToInt(it.getp2()->getX());
+        it.getp2()->setY(dy + (d * it.getp2()->getY()) );
+        unsigned int y2 = roundToInt(it.getp2()->getY());
 
-        img.draw_line( roundToInt( it.getp1()->getX() ), roundToInt( it.getp1()->getY() ), roundToInt( it.getp2()->getX() ), roundToInt( it.getp1()->getY() ), it.getColor()  );
+        img.draw_line( x1, y1, x2, y2, it.getColor());
     }
+
+    return img;
 }
