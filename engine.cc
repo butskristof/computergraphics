@@ -25,8 +25,11 @@
     // intro
     #include "implementations/intro.cpp" // colorRectangle, blocks, quartercircle
 
-// root function, more like root of all evil
+    // session 1
+    #include "implementations/Lines2D.hh" // Line2D & Point2D
+    #include "implementations/s1.cpp" // draw2DLines
 
+// root function, more like root of all evil
 
 img::EasyImage generate_image(const ini::Configuration &configuration)
 {
