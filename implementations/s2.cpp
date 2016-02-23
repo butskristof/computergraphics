@@ -63,3 +63,15 @@ Matrix eyePoint(Vector3D eye) {
 
     return m;
 }
+
+void applyEyeTransformation(Figures3D& f, Matrix e) {
+    for (auto i: f.size()) {
+        applyTransformation(f[i], e);
+    }
+}
+
+void applyTransformation(Figure& f, Matrix const& m) {
+    for (auto i: f.points.size()) {
+        f.points.at(i) *= m;
+    }
+}
