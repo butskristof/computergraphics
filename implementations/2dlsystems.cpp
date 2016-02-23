@@ -1,7 +1,6 @@
 #include "../l_parser/l_parser.hh"
 
 std::string lSystemReplacement(int nrIter, std::string toRepl, LParser::LSystem* lsystem) {
-    std::cout << toRepl << std::endl;
     if ( nrIter == 0 ) {
         return toRepl;
     }
@@ -17,6 +16,7 @@ std::string lSystemReplacement(int nrIter, std::string toRepl, LParser::LSystem*
     }
 
     out = lSystemReplacement( nrIter - 1, out, lsystem);
+    return out;
 }
 
 LParser::LSystem2D makeLSystem(std::string inputloc) {
