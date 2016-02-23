@@ -1,4 +1,5 @@
 #include "../l_parser/l_parser.hh"
+#include <stack>
 
 std::string lSystemReplacement(int nrIter, std::string toRepl, LParser::LSystem* lsystem) {
     if ( nrIter == 0 ) {
@@ -30,6 +31,7 @@ LParser::LSystem2D makeLSystem(std::string inputloc) {
 
 Lines2D drawLSystem( LParser::LSystem2D &ls, img::Color col) {
     Lines2D lines;
+    std::stack<ini::DoubleTuple> bracketstack;
 
     double x = 0, y = 0, xprev = 0, yprev = 0;
     double initAngle = (ls.get_starting_angle() * (pi/180) );
@@ -53,6 +55,18 @@ Lines2D drawLSystem( LParser::LSystem2D &ls, img::Color col) {
             currentAngle = fmod((currentAngle + angle), (2*pi));
         } else if ( c == '-' ) {
             currentAngle = fmod((currentAngle - angle), (2*pi));
+        } else if ( c == '(' ) {
+            ini::DoubleTuple d;
+            d.push_back(x);
+            d.push_back(y);
+            d.push_back(currentAngle);
+            bracketstack.push( d );
+        } else if ( c == ')' ) {
+            ini::DoubleTuple d = bracketstack.top();
+            bracketstack.pop();
+            x = d.at(0);
+            y = d.at(1);
+            currentAngle = d.at(2);
         }
     }
 
