@@ -22,6 +22,8 @@
 
     // session 2
     #include "vector/vector.hh"
+    #include "implementations/Face.hh"
+    #include "implementations/Figure.hh"
 
 // implementations
 

@@ -43,3 +43,23 @@ Matrix translate(Vector3D v) {
     t(4, 3) = v.z;
     return t;
 }
+
+Matrix eyePoint(Vector3D eye) {
+    Matrix m;
+    double phi, theta, r;
+    r = std::sqrt( pow( eye.x, 2 ) + pow(eye.y, 2) + pow(eye.z, 2) );
+    phi = std::acos( eye.z / r );
+    theta = std::atan2( eye.y, eye.z );
+
+    m(1, 1) = std::sin(theta) * (-1);
+    m(1, 2) = (-1) * std::cos(theta) * std::cos(phi);
+    m(1, 3) = std::cos(theta) * std::sin(phi);
+    m(2, 1) = std::cos(theta);
+    m(2, 2) = (-1) * std::sin(theta) * std::cos(phi);
+    m(2, 3) = std::sin(theta) * std::sin(phi);
+    m(3, 2) = std::sin(phi);
+    m(3, 3) = std::cos(phi);
+    m(4, 3) = (-1) * r;
+
+    return m;
+}
