@@ -35,3 +35,11 @@ Matrix rotateZ(double angle) {
     mz(2, 2) = std::cos(angle);
     return mz;
 }
+
+Matrix translate(Vector3D v) {
+    Matrix t;
+    t(4, 1) = v.x;
+    t(4, 2) = v.y;
+    t(4, 3) = v.z;
+    return t;
+}
