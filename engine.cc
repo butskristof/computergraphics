@@ -20,6 +20,9 @@
         return d < 0 ? std::ceil(d-0.5): std::floor(d+0.5);
     }
 
+    // session 2
+    #include "vector/vector.hh"
+
 // implementations
 
     // intro
@@ -31,6 +34,9 @@
     #include "implementations/s1.cpp" // draw2DLines
 
     #include "implementations/2dlsystems.cpp" // L-system shizzle
+
+    // session 2
+    #include "implementations/s2.cpp"
 
 // root function, more like root of all evil
 
