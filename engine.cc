@@ -90,11 +90,71 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
     } else if ( type == "2DLSystem") {
         unsigned int size = configuration["General"]["size"].as_int_or_die();
         img::Color bgc = img::Color( configuration["General"]["backgroundcolor"].as_double_tuple_or_die() );
-        img::Color linec = img::Color( configuration["2DLSystem"]["color"] );
+        img::Color linec = img::Color( configuration["2DLSystem"]["color"].as_double_tuple_or_die() );
         std::string inputloc = configuration["2DLSystem"]["inputfile"].as_string_or_die();
         LParser::LSystem2D lsystem = makeLSystem(inputloc);
         Lines2D lines = drawLSystem(lsystem, linec);
         image = draw2DLines(lines, size, bgc);
+    } else if ( type == "Wireframe" ) {
+        unsigned int size = configuration["General"]["size"].as_int_or_die();
+        ini::DoubleTuple eye = configuration["General"]["eye"].as_double_tuple_or_die();
+        Matrix eyem = eyePoint( Vector3D::point(eye.at(0), eye.at(1), eye.at(2)) );
+        img::Color bgc = img::Color( configuration["General"]["backgroundcolor"].as_double_tuple_or_die() );
+        unsigned int nrFigures = configuration["General"]["nrFigures"].as_int_or_die();
+
+        Figures3D figures;
+        Lines2D lines;
+
+        for (int it = 0; it < nrFigures; ++it) {
+            std::string fig = "Figure" + std::to_string(it);
+            Figure f;
+
+            // transformations
+
+            // scale
+            Matrix scale = scaleFigure( configuration[fig]["scale"].as_double_or_die() );
+
+            // rotations
+            Matrix rotate;
+            ini::DoubleTuple r;
+            r.push_back( configuration[fig]["rotateX"].as_double_or_die() );
+            r.push_back( configuration[fig]["rotateY"].as_double_or_die() );
+            r.push_back( configuration[fig]["rotateZ"].as_double_or_die() );
+            for (int i = 0; i < r.size(); ++i) {
+                r.at(i) *= (pi / 180);
+            }
+            rotate = rotateX(r.at(0)) * rotateY(r.at(1)) * rotateZ(r.at(2));
+
+            // translation
+            ini::DoubleTuple center = configuration[fig]["center"].as_double_tuple_or_die();
+            Matrix translation = translate( Vector3D::vector(center.at(0), center.at(1), center.at(2) ) );
+
+            // final
+            Matrix final = scale * rotate * translation;
+
+            f.color = img::Color( configuration[fig]["color"].as_double_tuple_or_die() );
+
+
+            std::string figtype = configuration[fig]["type"].as_string_or_die();
+            if ( figtype == "LineDrawing" ) {
+                unsigned int nrPoints = configuration[fig]["nrPoints"].as_int_or_die();
+                for (int i = 0; i < nrPoints; ++i) {
+                    ini::DoubleTuple p = configuration[fig]["point" + std::to_string(i)].as_double_tuple_or_die();
+                    f.points.push_back( Vector3D::point( p.at(0), p.at(1), p.at(2) ) );
+                }
+                unsigned int nrLines = configuration[fig]["nrLines"].as_int_or_die();
+                for (int i = 0; i < nrLines; ++i) {
+                    ini::IntTuple l = configuration[fig]["line" + std::to_string(i)].as_int_tuple_or_die();
+                    f.lines.push_back( l );
+                }
+            }
+            applyTransformation( f, final );
+            figures.push_back(f);
+        }
+        applyEyeTransformation(figures, eyem);
+        perspectiveProjection(figures, lines);
+        image = draw2DLines(lines, size, bgc);
+
     } else {
         image = img::EasyImage();
     }

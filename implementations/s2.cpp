@@ -14,6 +14,7 @@ Matrix rotateX(double angle) {
     mx(2, 3) = std::sin(angle) * (-1);
     mx(3, 2) = std::sin(angle);
     mx(3, 3) = std::cos(angle);
+    return mx;
 }
 
 Matrix rotateY(double angle) {
@@ -64,14 +65,40 @@ Matrix eyePoint(Vector3D eye) {
     return m;
 }
 
-void applyEyeTransformation(Figures3D& f, Matrix e) {
-    for (auto i: f.size()) {
-        applyTransformation(f[i], e);
-    }
-}
-
 void applyTransformation(Figure& f, Matrix const& m) {
-    for (auto i: f.points.size()) {
+    for (int i = 0; i < f.points.size(); ++i) {
         f.points.at(i) *= m;
     }
 }
+
+void applyEyeTransformation(Figures3D& f, Matrix e) {
+    for (int i = 0; i < f.size(); ++i) {
+        applyTransformation(f.at(i), e);
+    }
+}
+
+Point2D perspectivePointProjection(Vector3D point, double d) {
+    double x = (d * point.x) * ( (-1) * point.z);
+    double y = (d * point.y) * ( (-1) * point.z);
+
+    return Point2D(x, y);
+
+}
+
+void perspectiveProjection( Figures3D& figures, Lines2D& lines) {
+    for (Figure& it: figures) {
+        if ( it.faces.size() != 0 ) {
+        } else {
+            for ( auto it2: it.lines ) {
+                Point2D p1, p2;
+
+                p1 = perspectivePointProjection( it.points.at(it2.at(0)), 1.0 );
+                p2 = perspectivePointProjection( it.points.at(it2.at(1)), 1.0 );
+
+                lines.push_back( Line2D(p1, p2, it.color) );
+
+            }
+        }
+    }
+}
+
