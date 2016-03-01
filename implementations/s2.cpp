@@ -50,7 +50,13 @@ Matrix eyePoint(Vector3D eye) {
     double phi, theta, r;
     r = std::sqrt( pow( eye.x, 2 ) + pow(eye.y, 2) + pow(eye.z, 2) );
     phi = std::acos( eye.z / r );
-    theta = std::atan2( eye.y, eye.z );
+    theta = std::atan2( eye.y, eye.x );
+
+    /*
+    std::cout << "original eye: " << std::endl;
+    std::cout << "(" << ( r * std::sin(phi)) * std::cos(theta) << ", " << r * std::sin(phi) * std::sin(theta) << ", " << r * std::cos(phi) << ")\n";
+    std::cout << "r: " << r << ", phi: " << phi << ", theta: " << theta << std::endl;
+    */
 
     m(1, 1) = std::sin(theta) * (-1);
     m(1, 2) = (-1) * std::cos(theta) * std::cos(phi);
@@ -62,7 +68,12 @@ Matrix eyePoint(Vector3D eye) {
     m(3, 3) = std::cos(phi);
     m(4, 3) = (-1) * r;
 
-    return m;
+    Matrix v;
+    v = rotateZ( (pi/2) + theta );
+    v *= rotateX( phi );
+    v*= translate( Vector3D::vector( 0, 0, (-1) * r) );
+
+    return v;
 }
 
 void applyTransformation(Figure& f, Matrix const& m) {
