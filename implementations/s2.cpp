@@ -91,27 +91,30 @@ void applyEyeTransformation(Figures3D& f, Matrix e) {
 }
 
 Point2D perspectivePointProjection(Vector3D point, double d) {
-    double x = (d * point.x) * ( (-1) * point.z);
-    double y = (d * point.y) * ( (-1) * point.z);
+    double x = (d * point.x) / ( (-1) * point.z);
+    double y = (d * point.y) / ( (-1) * point.z);
 
     return Point2D(x, y);
 
 }
 
 void perspectiveProjection( Figures3D& figures, Lines2D& lines) {
-    for (Figure& it: figures) {
-        if ( it.faces.size() != 0 ) {
+
+    for (int i = 0; i < figures.size(); ++i) {
+        if ( figures.at(i).faces.size() != 0 ) {
+            // for future
         } else {
-            for ( auto it2: it.lines ) {
+            for ( int j = 0; j < figures.at(i).lines.size(); ++j ) {
                 Point2D p1, p2;
 
-                p1 = perspectivePointProjection( it.points.at(it2.at(0)), 1.0 );
-                p2 = perspectivePointProjection( it.points.at(it2.at(1)), 1.0 );
+                p1 = perspectivePointProjection( figures.at(i).points.at( figures.at(i).lines.at(j).at(0) ) , 1.0 );
+                p2 = perspectivePointProjection( figures.at(i).points.at( figures.at(i).lines.at(j).at(1) ) , 1.0 );
 
-                lines.push_back( Line2D(p1, p2, it.color) );
+                lines.push_back( Line2D( p1, p2, figures.at(i).color ) );
 
             }
         }
     }
+
 }
 
