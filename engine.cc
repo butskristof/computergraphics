@@ -40,6 +40,9 @@
     // session 2
     #include "implementations/s2.cpp"
 
+    // session 3
+    #include "implementations/s3.cpp"
+
 // root function, more like root of all evil
 
 img::EasyImage generate_image(const ini::Configuration &configuration)
@@ -96,6 +99,7 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
         Lines2D lines = drawLSystem(lsystem, linec);
         image = draw2DLines(lines, size, bgc);
     } else if ( type == "Wireframe" ) {
+
         unsigned int size = configuration["General"]["size"].as_int_or_die();
         ini::DoubleTuple eye = configuration["General"]["eye"].as_double_tuple_or_die();
         Matrix eyem = eyePoint( Vector3D::point(eye.at(0), eye.at(1), eye.at(2)) );
@@ -147,7 +151,10 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
                     ini::IntTuple l = configuration[fig]["line" + std::to_string(i)].as_int_tuple_or_die();
                     f.lines.push_back( l );
                 }
+            } else if ( figtype == "Cube" ) {
+                createCube(f);
             }
+
             applyTransformation( f, final );
             figures.push_back(f);
         }

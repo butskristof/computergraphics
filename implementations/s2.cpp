@@ -103,6 +103,22 @@ void perspectiveProjection( Figures3D& figures, Lines2D& lines) {
     for (int i = 0; i < figures.size(); ++i) {
         if ( figures.at(i).faces.size() != 0 ) {
             // for future
+            for ( int j = 0; j < figures.at(i).faces.size(); ++j ) {
+                for (int k = 0; k < figures.at(i).faces.at(j).point_indexes.size() - 1; ++k) {
+                    Point2D p1, p2;
+
+                    if ( k == 0 ) {
+                        p1 = perspectivePointProjection( figures.at(i).points.at( figures.at(i).faces.at(j).point_indexes.at(k) ) , 1.0);
+                        p2 = perspectivePointProjection( figures.at(i).points.at( figures.at(i).faces.at(j).point_indexes.at( figures.at(i).faces.at(j).point_indexes.size() - 1 ) ) , 1.0);
+                    } else {
+                        p1 = perspectivePointProjection( figures.at(i).points.at( figures.at(i).faces.at(j).point_indexes.at(k) ) , 1.0);
+                        p2 = perspectivePointProjection( figures.at(i).points.at( figures.at(i).faces.at(j).point_indexes.at(k+1) ) , 1.0);
+                    }
+
+                lines.push_back( Line2D( p1, p2, figures.at(i).color ) );
+
+                }
+            }
         } else {
             for ( int j = 0; j < figures.at(i).lines.size(); ++j ) {
                 Point2D p1, p2;
