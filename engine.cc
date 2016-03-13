@@ -153,6 +153,39 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
                 }
             } else if ( figtype == "Cube" ) {
                 createCube(f);
+            } else if ( figtype == "Tetrahedron" ) {
+                createTetrahedron(f);
+            } else if ( figtype == "Octahedron" ) {
+                createOctahedron(f);
+            } else if ( figtype == "Icosahedron" ) {
+                createIcosahedron(f);
+            } else if ( figtype == "Dodecahedron" ) {
+                createDodecahedron(f);
+            } else if ( figtype == "Cone" ) {
+                int n = configuration[fig]["n"].as_int_or_die();
+                double h = configuration[fig]["height"].as_double_or_die();
+                createCone(f, n, h);
+            } else if ( figtype == "Cylinder" ) {
+                int n = configuration[fig]["n"].as_int_or_die();
+                double h = configuration[fig]["height"].as_double_or_die();
+                createCylinder(f, n, h);
+            } else if ( figtype == "Torus" ) {
+                double r = configuration[fig]["r"].as_double_or_die();
+                double R = configuration[fig]["R"].as_double_or_die();
+                int n = configuration[fig]["n"].as_int_or_die();
+                int m = configuration[fig]["m"].as_int_or_die();
+                createTorus(f, r, R, n, m);
+            } else if ( figtype == "Sphere" ) {
+                int n = configuration[fig]["n"].as_int_or_die();
+                createSphere(f, n);
+
+                for (int i = 0; i < f.points.size(); i++) {
+                    Vector3D* p = &(f.points[i]);
+                    double d = std::sqrt( std::pow( p->x ,2) + std::pow( p->y ,2) + std::pow( p->z ,2)  );
+                    p->x = p->x / d;
+                    p->y = p->y / d;
+                    p->z = p->z / d;
+                }
             }
 
             applyTransformation( f, final );
