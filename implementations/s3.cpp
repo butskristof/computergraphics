@@ -1,12 +1,12 @@
 void createCube(Figure& f) {
-    f.points.push_back( Vector3D::point( 1, -1, 1 ) );
-    f.points.push_back( Vector3D::point( -1, 1, -1 ) );
-    f.points.push_back( Vector3D::point( 1, 1, 1 ) );
-    f.points.push_back( Vector3D::point( -1, -1, 1 ) );
-    f.points.push_back( Vector3D::point( 1, 1, -1 ) );
-    f.points.push_back( Vector3D::point( -1, -1, -1 ) );
-    f.points.push_back( Vector3D::point( 1, -1, 1 ) );
-    f.points.push_back( Vector3D::point( -1, 1, 1 ) );
+    f.points.push_back( Vector3D::point( 1, -1, -1  )  );
+    f.points.push_back( Vector3D::point( -1, 1, -1  )  );
+    f.points.push_back( Vector3D::point( 1, 1, 1 )  );
+    f.points.push_back( Vector3D::point( -1, -1, 1  )  );
+    f.points.push_back( Vector3D::point( 1, 1, -1  )  );
+    f.points.push_back( Vector3D::point( -1, -1, -1  )  );
+    f.points.push_back( Vector3D::point( 1, -1, 1  )  );
+    f.points.push_back( Vector3D::point( -1, 1, 1  )  );
 
     Face temp;
     temp.point_indexes.push_back( 0 );

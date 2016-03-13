@@ -104,15 +104,22 @@ void perspectiveProjection( Figures3D& figures, Lines2D& lines) {
         if ( figures.at(i).faces.size() != 0 ) {
             // for future
             for ( int j = 0; j < figures.at(i).faces.size(); ++j ) {
-                for (int k = 0; k < figures.at(i).faces.at(j).point_indexes.size() - 1; ++k) {
+                for (int k = 0; k < figures.at(i).faces.at(j).point_indexes.size(); ++k) {
                     Point2D p1, p2;
 
-                    if ( k == 0 ) {
-                        p1 = perspectivePointProjection( figures.at(i).points.at( figures.at(i).faces.at(j).point_indexes.at(k) ) , 1.0);
-                        p2 = perspectivePointProjection( figures.at(i).points.at( figures.at(i).faces.at(j).point_indexes.at( figures.at(i).faces.at(j).point_indexes.size() - 1 ) ) , 1.0);
+                    if ( k == figures.at(i).faces.at(j).point_indexes.size() - 1 ) {
+                        int pi1 = figures.at(i).faces.at(j).point_indexes.at(k);
+                        int pi2 = figures.at(i).faces.at(j).point_indexes.at( 0 );
+
+                        p1 = perspectivePointProjection( figures.at(i).points.at(pi1) , 1.0);
+                        p2 = perspectivePointProjection( figures.at(i).points.at(pi2) , 1.0);
+
                     } else {
-                        p1 = perspectivePointProjection( figures.at(i).points.at( figures.at(i).faces.at(j).point_indexes.at(k) ) , 1.0);
-                        p2 = perspectivePointProjection( figures.at(i).points.at( figures.at(i).faces.at(j).point_indexes.at(k+1) ) , 1.0);
+                        int pi1 = figures.at(i).faces.at(j).point_indexes.at(k);
+                        int pi2 = figures.at(i).faces.at(j).point_indexes.at(k+1);
+
+                        p1 = perspectivePointProjection( figures.at(i).points.at(pi1) , 1.0);
+                        p2 = perspectivePointProjection( figures.at(i).points.at(pi2) , 1.0);
                     }
 
                 lines.push_back( Line2D( p1, p2, figures.at(i).color ) );
