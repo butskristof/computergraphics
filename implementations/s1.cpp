@@ -4,6 +4,9 @@
 #include <climits> // INT_MAX/_MIN
 
 img::EasyImage draw2DLines(const Lines2D& lines, const unsigned int size, const img::Color bgc = img::Color()) {
+
+    // debug for 2D lsystems
+    std::cout << "Entering draw2DLines, number of lines to be drawn: " << lines.size() << std::endl;
     
     // find min/max for x/y
     double xmin = INT_MAX, xmax = 0, ymin = INT_MAX, ymax = 0;

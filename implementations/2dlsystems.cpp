@@ -17,6 +17,7 @@ std::string lSystemReplacement(int nrIter, std::string toRepl, LParser::LSystem*
     }
 
     out = lSystemReplacement( nrIter - 1, out, lsystem);
+    std::cout << out.length() << std::endl;
     return out;
 }
 
@@ -27,6 +28,23 @@ LParser::LSystem2D makeLSystem(std::string inputloc) {
     input.close();
 
     return ls;
+}
+
+std::vector< std::pair< int, char > > splitString(std::string input) {
+    std::vector< std::pair< int, char > > ret;
+
+    char c = ' ';
+    char prev = ' ';
+    int ctr = 0;
+
+    for (int i = 0; i < input.size(); ++i) {
+        c = input.at(i);
+        if ( c == prev ) {
+            ++ctr;
+        } else {
+            // add to vector
+        }
+    }
 }
 
 Lines2D drawLSystem( LParser::LSystem2D &ls, img::Color col) {
@@ -43,8 +61,21 @@ Lines2D drawLSystem( LParser::LSystem2D &ls, img::Color col) {
 
     std::string final = lSystemReplacement( ls.get_nr_iterations(), initiator, &ls );
 
-    for ( char c: final) {
+    // split up per char
+
+    char c = ' ';
+    char tracking = ' ';
+    double xtrack, ytrack;
+    int lengthctr = 0; // length counter for line
+
+    for ( int i = 0; i < final.length(); ++i) {
+
+            c = final.at(i);
+
+            // TO REVISE!!
+
         if (alphabet.find(c) != alphabet.end() ) {
+
             xprev = x; yprev = y;
             x = x + std::cos( currentAngle );
             y = y + std::sin( currentAngle );
@@ -68,6 +99,7 @@ Lines2D drawLSystem( LParser::LSystem2D &ls, img::Color col) {
             y = d.at(1);
             currentAngle = d.at(2);
         }
+//        prev = c;
     }
 
     return lines;
