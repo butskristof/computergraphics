@@ -3,7 +3,7 @@
 #include <algorithm> // std::max
 #include <climits> // INT_MAX/_MIN
 
-img::EasyImage draw2DLines(const Lines2D& lines, const unsigned int size, const img::Color bgc = img::Color()) {
+img::EasyImage draw2DLines(const Lines2D& lines, const unsigned int size, const img::Color bgc = img::Color(), const bool zbuf = false) {
 
     // debug for 2D lsystems
     std::cout << "Entering draw2DLines, number of lines to be drawn: " << lines.size() << std::endl;
@@ -44,6 +44,8 @@ img::EasyImage draw2DLines(const Lines2D& lines, const unsigned int size, const 
     double dx = (imgx / 2.0) - dcx;
     double dy = (imgy / 2.0) - dcy;
 
+    ZBuffer zbuffer(imgx, imgy);
+
     // move points
 
     img::EasyImage img(imgx, imgy, bgc);
@@ -57,7 +59,15 @@ img::EasyImage draw2DLines(const Lines2D& lines, const unsigned int size, const 
         it.getp2()->setY(dy + (d * it.getp2()->getY()) );
         unsigned int y2 = roundToInt(it.getp2()->getY());
 
-        img.draw_line( x1, y1, x2, y2, it.getColor());
+        double z1 = it.getz1();
+        double z2 = it.getz2();
+
+        if (zbuf) {
+            draw_zbuf_line( zb, img, x1, y1, z1, x2, y2, z2, it.getColor() );
+        } else {
+            img.draw_line( x1, y1, x2, y2, it.getColor());
+        }
+
     }
 
     return img;

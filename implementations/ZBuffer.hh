@@ -2,8 +2,8 @@
 
 class ZBuffer {
     private:
-        std::vector< std::vector< double > > buffer;
 
     public:
+        std::vector< std::vector< double > > buffer;
         ZBuffer(const int width, const int height);
-}
+};

@@ -33,6 +33,7 @@
     // session 1
     #include "implementations/Point2D.hh" // Point2D
     #include "implementations/Lines2D.hh" // Line2D
+    #include "implementations/ZBuffer.hh"
     #include "implementations/s1.cpp" // draw2DLines
 
     #include "implementations/2dlsystems.cpp" // L-system shizzle
@@ -42,6 +43,9 @@
 
     // session 3
     #include "implementations/s3.cpp"
+
+    // session 4
+    #include "implementations/s4.cpp"
 
 // root function, more like root of all evil
 
@@ -98,7 +102,12 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
         LParser::LSystem2D lsystem = makeLSystem(inputloc);
         Lines2D lines = drawLSystem(lsystem, linec);
         image = draw2DLines(lines, size, bgc);
-    } else if ( type == "Wireframe" ) {
+    } else if ( type == "Wireframe" or type == "ZBufferedWireframe" ) {
+
+        int zb = 0; // zbuffering: 0 -> wireframe, 1 -> zbuffered wireframe
+        if ( type == "ZBufferedWireframe" ) {
+            zb = 1;
+        }
 
         unsigned int size = configuration["General"]["size"].as_int_or_die();
         ini::DoubleTuple eye = configuration["General"]["eye"].as_double_tuple_or_die();
@@ -193,7 +202,7 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
         }
         applyEyeTransformation(figures, eyem);
         perspectiveProjection(figures, lines);
-        image = draw2DLines(lines, size, bgc);
+        image = draw2DLines(lines, size, bgc, ( zb > 0 ));
 
     } else {
         image = img::EasyImage();
