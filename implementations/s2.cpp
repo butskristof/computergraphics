@@ -133,7 +133,11 @@ void perspectiveProjection( Figures3D& figures, Lines2D& lines) {
                 p1 = perspectivePointProjection( figures.at(i).points.at( figures.at(i).lines.at(j).at(0) ) , 1.0 );
                 p2 = perspectivePointProjection( figures.at(i).points.at( figures.at(i).lines.at(j).at(1) ) , 1.0 );
 
-                lines.push_back( Line2D( p1, p2, figures.at(i).color ) );
+                double z1, z2;
+                z1 = figures.at(i).points.at( figures.at(i).lines.at(j).at(0) ).z;
+                z2 = figures.at(i).points.at( figures.at(i).lines.at(j).at(1) ).z;
+
+                lines.push_back( Line2D( p1, z1, p2, z2, figures.at(i).color ) );
 
             }
         }

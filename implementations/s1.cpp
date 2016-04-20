@@ -2,6 +2,7 @@
 
 #include <algorithm> // std::max
 #include <climits> // INT_MAX/_MIN
+#include "s4.cpp"
 
 img::EasyImage draw2DLines(const Lines2D& lines, const unsigned int size, const img::Color bgc = img::Color(), const bool zbuf = false) {
 
@@ -63,7 +64,7 @@ img::EasyImage draw2DLines(const Lines2D& lines, const unsigned int size, const 
         double z2 = it.getz2();
 
         if (zbuf) {
-            draw_zbuf_line( zb, img, x1, y1, z1, x2, y2, z2, it.getColor() );
+            draw_zbuf_line( zbuffer, img, x1, y1, z1, x2, y2, z2, it.getColor() );
         } else {
             img.draw_line( x1, y1, x2, y2, it.getColor());
         }

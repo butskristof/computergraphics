@@ -15,6 +15,23 @@ Line2D::Line2D(const double x1, const double y1, const double x2, const double y
     this->color = color;
 }
 
+
+Line2D::Line2D(const Point2D p1, const double z1, const Point2D p2, const double z2, img::Color color) {
+    this->p1 = p1;
+    this->z1 = z1;
+    this->p2 = p2;
+    this->z2 = z2;
+    this->color = color;
+}
+
+Line2D::Line2D(const double x1, const double y1, const double z1, const double x2, const double y2, const double z2, img::Color color) {
+    this->p1 = Point2D(x1, y1);
+    this->z1 = z1;
+    this->p2 = Point2D(x2, y2);
+    this->z2 = z2;
+    this->color = color;
+}
+
 Point2D* Line2D::getp1() {
     return &(this->p1);
 }
