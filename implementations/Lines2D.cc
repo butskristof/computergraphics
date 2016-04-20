@@ -26,3 +26,20 @@ Point2D* Line2D::getp2() {
 img::Color Line2D::getColor() {
     return this->color;
 }
+
+
+void Line2D::setz1(double z1) {
+    this->z1 = z1;
+}
+
+double Line2D::getz1() {
+    return this->z1;
+}
+
+void Line2D::setz2(double z2) {
+    this->z2 = z2;
+}
+
+double Line2D::getz2() {
+    return this->z2;
+}
