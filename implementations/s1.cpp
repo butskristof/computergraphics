@@ -33,8 +33,8 @@ img::EasyImage draw2DLines(const Lines2D& lines, const unsigned int size, const 
         }
     }
 
-    double xrange = xmax - xmin;
-    double yrange = ymax - ymin;
+    double xrange = std::max(1.0, ( xmax - xmin ));
+    double yrange = std::max(1.0, ( ymax - ymin ));
 
     double imgx = size * ( xrange / std::max(xrange, yrange ));
     double imgy = size * ( yrange / std::max(xrange, yrange ));
@@ -44,6 +44,8 @@ img::EasyImage draw2DLines(const Lines2D& lines, const unsigned int size, const 
     double dcy = (d * (ymin + ymax) ) / 2.0;
     double dx = (imgx / 2.0) - dcx;
     double dy = (imgy / 2.0) - dcy;
+
+    std::cout << imgx << " " << imgy << std::endl;
 
     ZBuffer zbuffer(imgx, imgy);
 

@@ -24,7 +24,7 @@ void draw_zbuf_line(ZBuffer &zb, img::EasyImage &img, unsigned int x0, unsigned 
                 z = ( p / z1 ) + ( (1.0-p) / z0 );
             }
 
-            if ( z < zb.buffer[xi][yi] ) {
+            if ( z < zb.buffer.at(xi).at(yi) ) {
                 // update buffer and replace color
                 zb.buffer[xi][yi] = z;
                 img(xi, yi) = color;
