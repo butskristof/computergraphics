@@ -91,7 +91,6 @@ void applyEyeTransformation(Figures3D& f, Matrix e) {
 }
 
 Point2D perspectivePointProjection(Vector3D point, double d) {
-    std::cout << point.z << std::endl;
     double x = (d * point.x) / ( (-1) * point.z);
     double y = (d * point.y) / ( (-1) * point.z);
 
