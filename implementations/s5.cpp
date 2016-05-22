@@ -141,9 +141,9 @@ img::EasyImage drawZBufferedImage(const Figures3D& figures , const unsigned int 
 
                 for ( int k = 0; k < v.size(); ++k ) {
                     if ( k == ( v.size() - 1 ) ) {
-                        l.push_back( Line2D( v.at(k), zv.at(k), v.at(0), zv.at(0), figures.at(j).color ) );
+                        l.push_back( Line2D( v.at(k), zv.at(k), v.at(0), zv.at(0), figures.at(i).color ) );
                     } else {
-                        l.push_back( Line2D( v.at(k), zv.at(k), v.at(k+1), zv.at(k+1), figures.at(j).color ) );
+                        l.push_back( Line2D( v.at(k), zv.at(k), v.at(k+1), zv.at(k+1), figures.at(i).color ) );
                     }
                 }
             }
