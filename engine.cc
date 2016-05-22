@@ -200,6 +200,8 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
                     p->y = p->y / d;
                     p->z = p->z / d;
                 }
+            } else if ( figtype == "3DLSystem" ) {
+                return img::EasyImage();
             }
 
             applyTransformation( f, final );
