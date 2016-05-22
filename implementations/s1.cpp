@@ -19,6 +19,7 @@ img::EasyImage draw2DLines(const Lines2D& lines, const unsigned int size, const 
         x2 = it.getp2()->getX();
         y2 = it.getp2()->getY();
 
+
         if ( std::max(x1, x2) > xmax ) {
             xmax = std::max(x1, x2);
         }
@@ -33,19 +34,21 @@ img::EasyImage draw2DLines(const Lines2D& lines, const unsigned int size, const 
         }
     }
 
+    /*
     double xrange = std::max(1.0, ( xmax - xmin ));
     double yrange = std::max(1.0, ( ymax - ymin ));
+    */
+    double xrange = xmax - xmin;
+    double yrange = ymax - ymin;
 
     double imgx = size * ( xrange / std::max(xrange, yrange ));
     double imgy = size * ( yrange / std::max(xrange, yrange ));
 
     double d = 0.95 * (imgx / xrange);
-    double dcx = (d * (xmin + xmax) ) / 2.0;
-    double dcy = (d * (ymin + ymax) ) / 2.0;
+    double dcx = d * ( (xmin + xmax) / 2.0 );
+    double dcy = d * ( (ymin + ymax) / 2.0 );
     double dx = (imgx / 2.0) - dcx;
     double dy = (imgy / 2.0) - dcy;
-
-    std::cout << imgx << " " << imgy << std::endl;
 
     ZBuffer zbuffer(imgx, imgy);
 
@@ -53,17 +56,16 @@ img::EasyImage draw2DLines(const Lines2D& lines, const unsigned int size, const 
 
     img::EasyImage img(imgx, imgy, bgc);
     for (auto it: lines) {
-        it.getp1()->setX(dx + (d * it.getp1()->getX()) );
-        unsigned int x1 = roundToInt(it.getp1()->getX());
-        it.getp1()->setY(dy + (d * it.getp1()->getY()) );
-        unsigned int y1 = roundToInt(it.getp1()->getY());
-        it.getp2()->setX(dx + (d * it.getp2()->getX()) );
-        unsigned int x2 = roundToInt(it.getp2()->getX());
-        it.getp2()->setY(dy + (d * it.getp2()->getY()) );
-        unsigned int y2 = roundToInt(it.getp2()->getY());
+
+        unsigned int x1 = roundToInt( ( it.getp1()->getX() * d ) + dx );
+        unsigned int x2 = roundToInt( ( it.getp2()->getX() * d ) + dx );
+        unsigned int y1 = roundToInt( ( it.getp1()->getY() * d ) + dy );
+        unsigned int y2 = roundToInt( ( it.getp2()->getY() * d ) + dy );
 
         double z1 = it.getz1();
         double z2 = it.getz2();
+
+        std::cout << x1 << " " << x2 << " " << y1 << " " << y2 << std::endl;
 
         if (zbuf) {
             draw_zbuf_line( zbuffer, img, x1, y1, z1, x2, y2, z2, it.getColor() );
