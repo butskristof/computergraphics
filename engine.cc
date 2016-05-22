@@ -1,6 +1,7 @@
 #include "easy_image.hh"
 #include "ini_configuration.hh"
 
+
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
