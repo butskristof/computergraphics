@@ -91,6 +91,7 @@ void applyEyeTransformation(Figures3D& f, Matrix e) {
 }
 
 Point2D perspectivePointProjection(Vector3D point, double d) {
+    std::cout << point.z << std::endl;
     double x = (d * point.x) / ( (-1) * point.z);
     double y = (d * point.y) / ( (-1) * point.z);
 
@@ -106,6 +107,7 @@ void perspectiveProjection( Figures3D& figures, Lines2D& lines) {
             for ( int j = 0; j < figures.at(i).faces.size(); ++j ) {
                 for (int k = 0; k < figures.at(i).faces.at(j).point_indexes.size(); ++k) {
                     Point2D p1, p2;
+                    double z1 = 0, z2 = 0;
 
                     if ( k == figures.at(i).faces.at(j).point_indexes.size() - 1 ) {
                         int pi1 = figures.at(i).faces.at(j).point_indexes.at(k);
@@ -114,15 +116,21 @@ void perspectiveProjection( Figures3D& figures, Lines2D& lines) {
                         p1 = perspectivePointProjection( figures.at(i).points.at(pi1) , 1.0);
                         p2 = perspectivePointProjection( figures.at(i).points.at(pi2) , 1.0);
 
+                        z1 = figures.at(i).points.at(pi1).z;
+                        z2 = figures.at(i).points.at(pi2).z;
+
                     } else {
                         int pi1 = figures.at(i).faces.at(j).point_indexes.at(k);
                         int pi2 = figures.at(i).faces.at(j).point_indexes.at(k+1);
 
                         p1 = perspectivePointProjection( figures.at(i).points.at(pi1) , 1.0);
                         p2 = perspectivePointProjection( figures.at(i).points.at(pi2) , 1.0);
+
+                        z1 = figures.at(i).points.at(pi1).z;
+                        z2 = figures.at(i).points.at(pi2).z;
                     }
 
-                lines.push_back( Line2D( p1, p2, figures.at(i).color ) );
+                lines.push_back( Line2D( p1, z1, p2, z2, figures.at(i).color ) );
 
                 }
             }

@@ -3,7 +3,7 @@
 
 ZBuffer::ZBuffer(const int width, const int height) {
     for ( int i = 0 ; i < width ; ++i) {
-            std::vector<double> t;
+        std::vector<double> t;
         for ( int j = 0 ; j < height ; ++j) {
             t.push_back( std::numeric_limits<double>::infinity() );
         }

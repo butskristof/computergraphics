@@ -65,6 +65,10 @@ img::EasyImage draw2DLines(const Lines2D& lines, const unsigned int size, const 
         double z1 = it.getz1();
         double z2 = it.getz2();
 
+        std::cout << z1 << " " << z2 << std::endl;
+
+        std::cout << x1 << " " << y1 << " " << x2 << " " << y2 << std::endl;
+
         if (zbuf) {
             draw_zbuf_line( zbuffer, img, x1, y1, z1, x2, y2, z2, it.getColor() );
         } else {
