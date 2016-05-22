@@ -47,6 +47,9 @@
     // session 4
         // s4.cpp already included in s1.cpp
 
+    // session 5 
+    #include "implementations/s5.cpp"
+
 // root function, more like root of all evil
 
 img::EasyImage generate_image(const ini::Configuration &configuration)
@@ -102,11 +105,13 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
         LParser::LSystem2D lsystem = makeLSystem(inputloc);
         Lines2D lines = drawLSystem(lsystem, linec);
         image = draw2DLines(lines, size, bgc);
-    } else if ( type == "Wireframe" or type == "ZBufferedWireframe" ) {
+    } else if ( type == "Wireframe" or type == "ZBufferedWireframe" or type == "ZBuffering" ) {
 
         int zb = 0; // zbuffering: 0 -> wireframe, 1 -> zbuffered wireframe
         if ( type == "ZBufferedWireframe" ) {
             zb = 1;
+        } else if ( type == "ZBuffering") {
+            zb = 2;
         }
 
         unsigned int size = configuration["General"]["size"].as_int_or_die();
@@ -201,8 +206,14 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
             figures.push_back(f);
         }
         applyEyeTransformation(figures, eyem);
-        perspectiveProjection(figures, lines);
-        image = draw2DLines(lines, size, bgc, ( zb > 0 ));
+
+        if ( zb == 2 ) {
+            image = drawZBufferedImage(figures, size, bgc);
+        } else {
+            perspectiveProjection(figures, lines);
+            image = draw2DLines(lines, size, bgc, ( zb > 0 ));
+        }
+
 
     } else {
         image = img::EasyImage();
