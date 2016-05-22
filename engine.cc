@@ -202,7 +202,97 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
                     p->z = p->z / d;
                 }
             } else if ( figtype == "3DLSystem" ) {
-                return img::EasyImage();
+				LParser::LSystem3D lsystem;
+				std::ifstream input( "./input/3_3dbodies/" + configuration[fig]["inputfile"].as_string_or_die() );
+				input >> lsystem;
+				input.close();
+
+				std::stack< std::vector<Vector3D> > bracketstack;
+
+				std::string initiator = lsystem.get_initiator();
+				std::set<char> alphabet = lsystem.get_alphabet();
+				std::string finals = lSystemReplacement(lsystem.get_nr_iterations(), initiator, &lsystem);
+				double angle = (lsystem.get_angle() * (pi/180));
+
+				Vector3D cur = Vector3D::point(0,0,0); // current location, initialise in origin
+				f.points.push_back(cur);
+				Vector3D H = Vector3D::vector(1,0,0); // heading
+				Vector3D Ht = H; //temp
+				Vector3D L = Vector3D::vector(0,1,0); // left
+				Vector3D Lt = L;
+				Vector3D U = Vector3D::vector(0,0,1); // upwards
+				Vector3D Ut = U;
+
+				for (auto i: finals) {
+					if (alphabet.find(i) != alphabet.end()) {
+						cur = cur + H;
+
+						f.points.push_back(cur);
+						if ( lsystem.draw(i) ) {
+							ini::IntTuple l;
+							l.push_back(f.points.size() - 2);
+							l.push_back(f.points.size() - 1);
+							f.lines.push_back( l );
+						}
+
+					} else if ( i == '+') {
+						Ht = H; Lt = L; Ut = U;
+						H = (Ht * std::cos(angle)) + (Lt * std::sin(angle));
+						L = ((-1) * Ht * std::sin(angle)) + (Lt * std::cos(angle));
+						//H = (Ht * rotateZ(angle));
+						//L = (Lt * rotateZ(angle));
+					} else if ( i == '-') {
+						Ht = H; Lt = L; Ut = U;
+						H = (Ht * std::cos((-1) * angle)) + (Lt * std::sin((-1) * angle));
+						L = ((-1) * Ht * std::sin((-1) * angle)) + (Lt * std::cos((-1) * angle));
+						//H = (Ht * rotateZ((-1) * angle));
+						//L = (Lt * rotateZ((-1) * angle));
+					} else if ( i == '^') {
+						Ht = H; Lt = L; Ut = U;
+						H = (Ht * std::cos(angle)) + (Ut * std::sin(angle));
+						U = ((-1)* Ht * std::sin(angle)) + (Ut * std::cos(angle));
+						//H = (Ht * rotateY(angle));
+						//U = (Ut * rotateY(angle));
+					} else if ( i == '&') {
+						Ht = H; Lt = L; Ut = U;
+						H = (Ht * std::cos((-1) * angle)) + (Ut * std::sin((-1) * angle));
+						U = ((-1) * Ht * std::sin((-1) * angle)) + (Ut * std::cos((-1) * angle));
+						//H = (Ht * rotateY((-1) * angle));
+						//U = (Ut * rotateY((-1) * angle));
+					} else if ( i == '\\') {
+						Ht = H; Lt = L; Ut = U;
+						L = ( Lt * std::cos(angle) ) - ( Ut * std::sin(angle) );
+						U = ( Lt * std::sin(angle) ) + ( Ut * std::cos(angle) );
+						//L = (Lt * rotateX(angle));
+						//U = (Ut * rotateX(angle));
+					} else if ( i == '/') {
+						Ht = H; Lt = L; Ut = U;
+						L = ( Lt * std::cos((-1) * angle) ) - ( Ut * std::sin((-1) * angle) );
+						U = ( Lt * std::sin((-1) * angle) ) + ( Ut * std::cos((-1) * angle) );
+						//L = (Lt * rotateX((-1) * angle));
+						//U = (Ut * rotateX((-1) * angle));
+					} else if ( i == '|') {
+						Ht = H; Lt = L; Ut = U;
+						H = (-1) * Ht;
+						L = (-1) * Lt;
+					} else if ( i == '(' ) {
+						std::vector<Vector3D> bst; // temp for bracketstack
+						bst.push_back(cur);
+						bst.push_back(H);
+						bst.push_back(L);
+						bst.push_back(U);
+						bracketstack.push(bst);
+					} else if ( i == ')' ) {
+						std::vector<Vector3D> bst = bracketstack.top();
+						bracketstack.pop();
+						cur = bst.at(0);
+						H = bst.at(1);
+						L = bst.at(2);
+						U = bst.at(3);
+						f.points.push_back(cur);
+                    }
+				}
+
             }
 
             applyTransformation( f, final );
