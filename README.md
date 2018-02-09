@@ -1,3 +1,3 @@
-# Computer Graphics #
-### Kristof Buts ###
-1Ba computer science 2015-2016
+# Computer Graphics 
+
+Computer graphics engine written in C++11. This was made as a project for the 'Computer graphics' course in the first bachelor year at the University of Antwerp. 
